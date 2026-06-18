@@ -3,7 +3,9 @@ import connectDB from './src/config/database.js';
 
 connectDB();
 
-app.listen(3000,()=>{
-    console.log("Tension mat lee server chal raha hai");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT,()=>{
+    console.log(`Tension mat lee server chal raha hai ${PORT}`);
 });
 
