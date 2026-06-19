@@ -1,35 +1,32 @@
 import React, { useState } from 'react';
-import { useAuth } from '../hook/useAuth';
+import {useAuth} from '../hook/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Login = () => {
+
+    const navigate = useNavigate();
+
+  const {handleLogin} = useAuth();
   const [form, setForm] = useState({
-    fullname: '',
-    contact: '',
     email: '',
     password: '',
-    isSeller: false,
   });
   const [showPass, setShowPass] = useState(false);
-  const { handleRegister } = useAuth();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRole = (isSeller) => {
-    setForm((prev) => ({ ...prev, isSeller }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await handleRegister(form);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
+      await handleLogin(form);
+      navigate('/');
+      console.log('Login Form Submitted:', form);
+    } catch (error) {
+      console.error(error, "login failed");
+      throw error;
     }
   };
 
@@ -54,10 +51,10 @@ const Register = () => {
           <div className="relative z-10 flex flex-col h-full p-7 pb-5">
             {/* Brand */}
             <div className="mb-6">
-              <div className="text-[26px] font-black text-brand tracking-[4px] leading-none">
+              <div className="text-[26px] font-black text-white tracking-[4px] leading-none">
                 VASTRA
               </div>
-              <div className="text-[22px] font-extrabold text-brand tracking-[3px] leading-tight ">
+              <div className="text-[22px] font-extrabold text-white tracking-[3px] leading-tight">
                 BHANDAR
               </div>
               <div className="text-[8px] text-[#777] tracking-[3px] mt-1 font-medium">
@@ -70,7 +67,7 @@ const Register = () => {
             <h2 className="text-[44px] font-black text-white leading-none tracking-wide m-0">
               JOIN THE
             </h2>
-            <h2 className="text-[52px] font-black text-brand leading-none  font-mono m-0 drop-shadow-[0_0_40px_rgba(232,73,15,0.3)]">
+            <h2 className="text-[52px] font-black text-brand leading-none  font-display m-0 drop-shadow-[0_0_40px_rgba(232,73,15,0.3)]">
               CULTURE
             </h2>
 
@@ -143,7 +140,7 @@ const Register = () => {
         </div>
 
         {/* ─────────────────────────────────────
-            RIGHT PANEL — Registration Form
+            RIGHT PANEL — Login Form
         ───────────────────────────────────── */}
         <div className="flex-1 bg-[#161616] px-7 py-7 md:px-9 md:py-8 flex flex-col relative border-l border-[#222] overflow-y-auto">
           {/* VB Logo top-right */}
@@ -157,62 +154,16 @@ const Register = () => {
 
           {/* Heading */}
           <h1 className="text-[26px] font-extrabold text-white leading-tight mb-2 m-0">
-            Create Your
+            Welcome Back to
             <br />
-            <span className="text-brand font-mono">Style</span> Account
+            <span className="text-brand font-black">Vastra Bhandar</span>
           </h1>
-
-
+          <p className="text-[12.5px] text-[#999] mb-6 leading-relaxed m-0">
+            Sign in to access your curated style profile and exclusive collection.
+          </p>
 
           {/* ─── Form ─── */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
-            {/* Full Name */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[#ccc] text-[11.5px] font-semibold tracking-wide">
-                Full Name
-              </label>
-              <div className="flex items-center bg-[#1e1e1e] border border-[#2a2a2a] rounded-[10px] px-3.5 h-[44px] focus-within:border-brand focus-within:shadow-[0_0_0_2px_rgba(232,73,15,0.1)] transition-all duration-200">
-                <span className="mr-2.5 flex items-center shrink-0">
-                  <svg width="16" height="16" fill="none" stroke="#666" strokeWidth="1.8" viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </span>
-                <input
-                  className="flex-1 bg-transparent border-none outline-none text-white text-[13px] placeholder-[#555] font-inter"
-                  type="text"
-                  name="fullname"
-                  placeholder="Enter your full name"
-                  value={form.fullname}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Contact Number */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[#ccc] text-[11.5px] font-semibold tracking-wide">
-                Contact Number
-              </label>
-              <div className="flex items-center bg-[#1e1e1e] border border-[#2a2a2a] rounded-[10px] px-3.5 h-[44px] focus-within:border-brand focus-within:shadow-[0_0_0_2px_rgba(232,73,15,0.1)] transition-all duration-200">
-                <span className="mr-2.5 flex items-center shrink-0">
-                  <svg width="16" height="16" fill="none" stroke="#666" strokeWidth="1.8" viewBox="0 0 24 24">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3.09 4.18 2 2 0 0 1 5.09 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                </span>
-                <input
-                  className="flex-1 bg-transparent border-none outline-none text-white text-[13px] placeholder-[#555] font-inter"
-                  type="tel"
-                  name="contact"
-                  placeholder="Enter your contact number"
-                  value={form.contact}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-
             {/* Email Address */}
             <div className="flex flex-col gap-1.5">
               <label className="text-[#ccc] text-[11.5px] font-semibold tracking-wide">
@@ -253,7 +204,7 @@ const Register = () => {
                   className="flex-1 bg-transparent border-none outline-none text-white text-[13px] placeholder-[#555] font-inter"
                   type={showPass ? 'text' : 'password'}
                   name="password"
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
                   value={form.password}
                   onChange={handleChange}
                   required
@@ -280,55 +231,13 @@ const Register = () => {
               </div>
             </div>
 
-            {/* Role — Buyer / Seller */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[#ccc] text-[11.5px] font-semibold tracking-wide">
-                I am a
-              </label>
-              <div className="flex gap-2.5">
-                <button
-                  type="button"
-                  id="role-buyer"
-                  className={`flex-1 py-2.5 rounded-[10px] border-[1.5px] text-[13px] font-semibold cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 font-inter ${
-                    !form.isSeller
-                      ? 'border-brand bg-brand/10 text-brand shadow-[0_0_12px_rgba(232,73,15,0.1)]'
-                      : 'border-[#2a2a2a] bg-[#1e1e1e] text-[#777] hover:border-[#444] hover:text-[#aaa]'
-                  }`}
-                  onClick={() => handleRole(false)}
-                >
-                  🛒 Buyer
-                </button>
-                <button
-                  type="button"
-                  id="role-seller"
-                  className={`flex-1 py-2.5 rounded-[10px] border-[1.5px] text-[13px] font-semibold cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 font-inter ${
-                    form.isSeller
-                      ? 'border-brand bg-brand/10 text-brand shadow-[0_0_12px_rgba(232,73,15,0.1)]'
-                      : 'border-[#2a2a2a] bg-[#1e1e1e] text-[#777] hover:border-[#444] hover:text-[#aaa]'
-                  }`}
-                  onClick={() => handleRole(true)}
-                >
-                  🏪 Seller
-                </button>
-              </div>
-            </div>
-
-            <a href="api/auth/google" className="w-full block">
-              <button
-                type="button"
-                className="w-full mt-1.5 h-12 btn-hover-gradient border-none rounded-xl text-white text-[14px] font-bold cursor-pointer flex items-center justify-center gap-2 tracking-wide transition-all duration-200  disabled:opacity-70 disabled:cursor-not-allowed font-inter"
-              >
-                <span>Continue with Google</span>
-              </button>
-            </a>
-
-            {/* Register Button */}
+            {/* Login Button */}
             <button
-              id="register-submit"
+              id="login-submit"
               type="submit"
-              className="mt-1.5 h-12 btn-hover-gradient border-none rounded-xl text-white text-[15px] font-bold cursor-pointer flex items-center justify-center gap-2 tracking-wide transition-all duration-200 active:scale-95  disabled:opacity-70 disabled:cursor-not-allowed font-inter"
+              className="mt-4 h-12 btn-hover-gradient border-none rounded-xl text-white text-[15px] font-bold cursor-pointer flex items-center justify-center gap-2 tracking-wide transition-all duration-200 shadow-[0_4px_24px_rgba(232,73,15,0.35)] hover:-translate-y-0.5 hover:shadow-[0_6px_30px_rgba(232,73,15,0.45)] active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0 font-inter"
             >
-              <span>Register</span>
+              <span>Sign In</span>
               <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
@@ -336,14 +245,14 @@ const Register = () => {
             </button>
           </form>
 
-          {/* Sign In link */}
+          {/* Register link */}
           <p className="text-center text-[#777] text-[12.5px] mt-5 m-0">
-            Already have an account?{' '}
+            Don't have an account?{' '}
             <a
-              href="/login"
+              href="/register"
               className="text-brand font-bold no-underline border-b border-transparent hover:border-brand transition-colors"
             >
-              Sign In
+              Register
             </a>
           </p>
         </div>
@@ -364,4 +273,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

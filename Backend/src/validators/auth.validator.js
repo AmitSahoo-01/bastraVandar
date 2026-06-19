@@ -20,3 +20,9 @@ export const validateRegisterUser = [
     validateRequest
 
 ]
+
+export const validateLoginUser = [
+    body("email").isEmail().withMessage("Aree yee sahi se dena email"),
+    body("password").isLength({min:6}).withMessage("Password kam se kam 6 characters ka hona chahiye"),
+    validateRequest
+]

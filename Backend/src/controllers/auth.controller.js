@@ -56,3 +56,41 @@ export const registerUser = async (req,res)=>{
         res.status(500).json({message:"Internal Server Error"});
     }   
 }
+
+
+export const loginUser = async(req,res)=>{
+    const {email,password} = req.body;
+    
+    try{
+        const user = await userModel.findOne({email});
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+
+        const isPasswordValid = await user.comparePassword(password);
+        if(!isPasswordValid){
+            return res.status(401).json({message:"Invalid password"});
+        }
+
+        await sendTokenResponse(user,res,"User logged in successfully");
+    }
+    catch(error){
+        console.error("Error during user login:", error);
+        res.status(500).json({message:"Internal Server Error"});    
+    }
+}
+
+
+//  Google oauth controller
+
+export const googleAuthController = async(req,res)=>{
+    try{
+        const user = req.user;
+        res.redirect(`http://localhost:5173/`);
+        res.status(200).json({message:"Google auth controller"});
+    }
+    catch(error){
+        console.error("Error during google auth:", error);
+        res.status(500).json({message:"Internal Server Error"});    
+    }
+}
