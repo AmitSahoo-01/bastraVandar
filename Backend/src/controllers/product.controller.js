@@ -53,3 +53,24 @@ export async function createProduct(req,res){
 
 
 }
+
+
+
+export async function getSellerProducts(req,res){
+
+    try{
+        const seller = req.user;
+        const products = await productModel.find({seller:seller._id});
+        return res.status(200).json({
+            success:true,
+            message:"seller products fetched successfully",
+            products
+        });
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Something went wrong while fetching seller products"
+        });
+    }   
+}
