@@ -64,7 +64,7 @@ export async function getSellerProducts(req,res){
         return res.status(200).json({
             success:true,
             message:"seller products fetched successfully",
-            products
+            products,
         });
     }catch(error){
         console.log(error);
