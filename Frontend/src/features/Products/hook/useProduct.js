@@ -25,12 +25,8 @@ export const useProduct = () =>{
     const fetchSellerProducts = async () => {
         try{
             const response = await getSellerProducts();
-            //
-            console.log(response);
-            console.log(response.product);
-            //
-            dispatch(setSellerProducts(response.product));
-            return response.product;
+            dispatch(setSellerProducts(response.products));
+            return response.products;
         }catch(error){
             console.error("Error fetching seller products:",error);
             throw error;
